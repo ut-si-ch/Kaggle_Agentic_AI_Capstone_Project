@@ -1,4 +1,4 @@
-# 🚀 Agentic Data Science Agent: Career Co-Pilot
+#  Agentic Data Science Agent: Career Co-Pilot
 
 ## Project Overview
 
@@ -41,11 +41,24 @@ The architecture includes robust quality assurance mechanisms [26]:
 *   **Observability:** The system is designed to emit **Logs** (single events), **Traces** (the sequential narrative of agent reasoning and tool choices), and **Metrics** (success rates/latency) [27]. This allows for debugging why an agent chooses a certain path (Trajectory) [28].
 *   **Evaluation:** The system can be tested against **Golden Datasets** using the **LLM-as-a-Judge** framework to measure metrics like **Response Match Score** and **Tool Trajectory Score** [29, 30].
 
-## 🏗️ Project Structure
+##  Project Structure
 
 The project is modularized into distinct directories for clarity and maintainability:
 
-CapstoneAgentProject/ ├── agents/                  # Specialized Agents (Tutor, Research, Coach, etc.) │   ├── ds_tutor_agent.py │   ├── research_agent.py │   ├── job_search_agent.py │   ├── resume_agent.py │   └── coach_agent.py ├── tools/                   # Atomic, Low-Level Utility Functions (File I/O, Web Search) │   ├── file_tools.py │   └── web_tools.py ├── .env                     # Configuration file (securely stores API keys, excluded from source control) ├── runner.py                # Main Orchestrator and Runner initialization ├── requirements.txt         # Project dependencies └── README.md                # This document
+CapstoneAgentProject/
+                    ├── agents/  # Specialized Agents (Tutor, Research, Coach, etc.) │   
+                               ├── ds_tutor_agent.py │
+                               ├── research_agent.py │
+                               ├── job_search_agent.py │
+                               ├── resume_agent.py │
+                               └── coach_agent.py 
+                    ├── tools/ # Atomic, Low-Level Utility Functions (File I/O, Web Search) │   
+                              ├── file_tools.py │
+                              └── web_tools.py ├── 
+                    .env   # Configuration file (securely stores API keys, excluded from source control)
+                    ├── runner.py  # Main Orchestrator and Runner initialization 
+                    ├── requirements.txt   # Project dependencies 
+                    └── README.md           
 
 ## Setup and Installation
 
@@ -53,4 +66,5 @@ CapstoneAgentProject/ ├── agents/                  # Specialized Agents (T
 2.  **Clone/Create:** Create the directory structure above and populate the files.
 3.  **Dependencies:** Install all required libraries using the `requirements.txt` file (to be generated next).
 4.  **API Keys:** Create a `.env` file containing your `GOOGLE_API_KEY` and `SERPAPI_API_KEY` (as discussed during the process, your manual saving of `.env` was correct). **Do not commit this file.**
+
 5.  **Execution:** Run the main orchestrator script: `python runner.py`.
