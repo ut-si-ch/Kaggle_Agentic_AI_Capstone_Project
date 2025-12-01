@@ -1,0 +1,19 @@
+# requirements.txt
+# Dependencies required for Agentic Data Science Agent
+# Based on successful installation in your Anaconda environment.
+
+# Core Agent Development Kit (ADK) components
+google-adk # Core library for agent development, required by all agents [3, 4]
+pydantic # Essential for generating structured output schemas (e.g., Resume Analysis Result) [5, 6]
+python-multipart # Used by FastAPI for handling form data and API interactions [2]
+
+# Server components for local testing and A2A communication (Day 5 concept)
+fastapi # Used by ADK's to_a2a() function to expose agents as services [2]
+uvicorn # Asynchronous server to run the FastAPI app locally [7, 8]
+aiohttp # Asynchronous HTTP client/server framework, sometimes needed for concurrency
+
+# Utilities
+python-dotenv # Required to securely load GOOGLE_API_KEY and other configuration from the .env file
+
+# Observability and Deployment Tools (Day 4 & 5 concepts)
+opentelemetry-instrumentation-google-genai # Used for structured logging and traces for Observability [9]
