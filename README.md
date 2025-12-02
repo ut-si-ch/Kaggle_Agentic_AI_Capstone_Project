@@ -1,70 +1,266 @@
-#  Agentic Data Science Agent: Career Co-Pilot
+---
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-App%20UI%20Included-green)
+![Agents](https://img.shields.io/badge/Multi--Agent-System-Level%203-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## Project Overview
+#  MultiAgentic Data Science Agent
 
-The **Agentic Data Science Agent** is a multi-agent system designed to guide aspiring data scientists from learning concepts to achieving job placement readiness. It addresses the critical challenges in the current job market: skill mismatch, difficulty parsing job descriptions (JDs), passing Applicant Tracking Systems (ATS), and navigating sensitive career transitions (like explaining layoffs) [7].
+A production-style, Level-3 Multi-Agent System for automating the end-to-end job-readiness workflow of Data Science professionals using:
 
-This system is built using the **Agent Development Kit (ADK)** and demonstrates mastery of all core concepts from the 5-Day AI Agents Intensive Course with Google. It is submitted under the **Enterprise Agents** track [4].
+- Root Orchestrator (A2A coordination)
+- Resume Tailor Agent (ATS matching + JD analysis)
+- Tutor Agent (ML/Stats/NLP teaching + quizzes)
+- Research Agent (job market & tech stack insights)
+- Coach Agent (layoff narrative, interview intro)
+- Tools, Memory, LROs, Observability, and Context Compaction
 
-## Core Value Proposition
+Includes a complete **Streamlit App** that replicates a real enterprise agentic platform.
 
-This agent system serves as an automated career co-pilot that coordinates five specialized agents to perform complex, multi-step workflows [8]:
-1.  **Diagnosis and Tutoring** (via `ds_tutor_agent`)
-2.  **Market Intelligence and Research** (via `research_agent`)
-3.  **Targeted Job Search and Ranking** (via `job_search_agent`)
-4.  **Resume and Cover Letter Optimization** (via `resume_agent`)
-5.  **High-Stakes Pitch Coaching** (via `coach_agent`)
+---
 
-## 🛠️ Technical Architecture & Required Features
+## Table of Contents
 
-The system follows a **Hierarchical Multi-Agent System** design (Level 3/4 Taxonomy [9]), ensuring **modularity** and specialization [10].
+- [Problem Statement](#problem-statement)
+- [Business Use Case](#business-use-case)
+- [Overview](#overview)
+- [System Architecture](#system-architecture)
+- [Demo Streamlit Preview](#demo-streamlit-preview)
+- [Objectives](#objectives)
+- [Agents & Responsibilities](#agents--responsibilities)
+- [Key Agentic Features](#key-agentic-features)
+- [Results & Impact](#results--impact)
+- [Conclusion](#conclusion)
+- [Installation & Usage](#installation--usage)
+- [Key Learnings](#key-learnings)
+- [Project Structure](#project-structure)
+- [Connect With Me](#connect-with-me)
+- [Acknowledgements](#acknowledgements)
 
-### 1. Multi-Agent System (Day 1 / Day 5 A2A)
-A **Root Orchestrator** (`runner.py`) acts as the central manager, analyzing the user's mission and delegating tasks sequentially or in parallel to five distinct, specialized sub-agents [11]. The sub-agents are integrated using the **AgentTool** pattern, which is the local application of the **Agent2Agent (A2A) Protocol** [12, 13].
+---
 
-### 2. Tools and Interoperability (Day 2 / MCP)
-The agents rely on both built-in and custom, atomic tools [14]:
-*   **Built-in Tools:** `google_search` and `BuiltInCodeExecutor` (for reliable calculations/practice problems) [15, 16].
-*   **Custom Tools:** Functions for job querying, resume parsing (`tools/file_tools.py`), and job ranking (`job_search_agent.py`) [17].
-*   **Code-as-Tool:** The `coach_agent` and `resume_agent` rely on Python functions to handle file I/O operations (simulating document reading/saving) [18].
+## Problem Statement
 
-### 3. Long-Running Operations (LRO / Day 2b)
-The `coach_agent` implements the LRO pattern for sensitive tasks, such as finalizing a layoff pitch or submitting a tailored resume. This ensures **Human-in-the-Loop (HITL)** oversight by requiring explicit confirmation from the user before proceeding with a high-stakes action [19]. This uses the `ToolContext.request_confirmation()` mechanism to pause and resume agent execution [20, 21].
+Aspiring Data Scientists and laid-off professionals struggle with:
 
-### 4. Sessions and Long-Term Memory (Day 3)
-The system is **stateful** and personalized:
-*   **Sessions:** Managed by `DatabaseSessionService` (configured in `runner.py`) to maintain conversation history and tool results across a single interaction [22].
-*   **Long-Term Memory:** Utilizes ADK’s memory pattern (`preload_memory` tool) to store persistent knowledge, such as the user's skill profile, past applications, and career preferences, ensuring **cross-session recall** [23, 24]. This proactive memory retrieval is critical for the `job_search_agent` to accurately rank job fit [25].
+- ATS rejection due to unoptimized resumes  
+- Undefined skill gaps & unclear study paths  
+- Difficulty explaining employment gaps or layoffs  
 
-### 5. Observability and Evaluation (Day 4)
-The architecture includes robust quality assurance mechanisms [26]:
-*   **Observability:** The system is designed to emit **Logs** (single events), **Traces** (the sequential narrative of agent reasoning and tool choices), and **Metrics** (success rates/latency) [27]. This allows for debugging why an agent chooses a certain path (Trajectory) [28].
-*   **Evaluation:** The system can be tested against **Golden Datasets** using the **LLM-as-a-Judge** framework to measure metrics like **Response Match Score** and **Tool Trajectory Score** [29, 30].
+A single LLM is insufficient — these tasks require **multi-agent specialization**, tool execution, and orchestrated reasoning.
 
-##  Project Structure
+---
 
-The project is modularized into distinct directories for clarity and maintainability:
+## Business Use Case
 
-CapstoneAgentProject/
-                    ├── agents/  # Specialized Agents (Tutor, Research, Coach, etc.) │   
-                               ├── ds_tutor_agent.py │
-                               ├── research_agent.py │
-                               ├── job_search_agent.py │
-                               ├── resume_agent.py │
-                               └── coach_agent.py 
-                    ├── tools/ # Atomic, Low-Level Utility Functions (File I/O, Web Search) │   
-                              ├── file_tools.py │
-                              └── web_tools.py ├── 
-                    .env   # Configuration file (securely stores API keys, excluded from source control)
-                    ├── runner.py  # Main Orchestrator and Runner initialization 
-                    ├── requirements.txt   # Project dependencies 
-                    └── README.md           
+The system acts as a **Career Co-Pilot** for:
 
-## Setup and Installation
+- Job seekers  
+- Graduates  
+- Layoff victims  
+- Career transitioners  
 
-1.  **Environment:** Ensure you have Python 3.9+ and pip installed. Create a virtual environment (`conda create -n agentcapstone python=3.10`).
-2.  **Clone/Create:** Create the directory structure above and populate the files.
-3.  **Dependencies:** Install all required libraries using the `requirements.txt` file (to be generated next).
-4.  **API Keys:** Create a `.env` file containing your `GOOGLE_API_KEY` and `SERPAPI_API_KEY` (as discussed during the process, your manual saving of `.env` was correct). **Do not commit this file.**
+It automates resume tailoring, coaching, tutoring, and job-market research, enabling faster and more accurate career outcomes.
 
-5.  **Execution:** Run the main orchestrator script: `python runner.py`.
+---
+
+## Overview
+
+This project implements a **Level-3 Multi-Agent System** built using the 5-Day AI Agents Intensive principles:
+
+- Day 1 – Orchestration  
+- Day 2 – Tools  
+- Day 3 – Memory  
+- Day 4 – Observability  
+- Day 5 – Production Patterns  
+
+The system runs through a unified Streamlit interface and demonstrates enterprise-grade agent-to-agent communication (A2A).
+
+---
+
+## System Architecture
+
+<p align='center'>
+<img width="1024" height="1536" alt="flow_chart" src="https://github.com/user-attachments/assets/efe98fc8-8aca-49ff-880f-d31784cf6435" />
+</p>
+
+---
+
+## Demo Streamlit Preview
+
+<p align='center'>
+<img width="1902" height="856" alt="front_page_SS" src="https://github.com/user-attachments/assets/2d7da7dc-5cc4-48bd-8233-a1cbce4005d1" />
+<img width="1902" height="870" alt="second_page_SS" src="https://github.com/user-attachments/assets/0d3e0852-577e-411d-9df2-06f8ed254b27" />
+<img width="1902" height="827" alt="third_page_SS" src="https://github.com/user-attachments/assets/0d981f59-54d8-4a8f-9910-8483d5da4ffa" />
+<img width="1910" height="847" alt="fourth_page_SS" src="https://github.com/user-attachments/assets/ca70ea8f-5de9-4618-b0c0-8c1e5b25e66f" />
+</p>
+
+### Demo Video – [Streamlit App Walkthrough](https://drive.google.com/file/d/16x3_se4uxAL8eTS_4tVGLuJzZ0rBKRJ8/view?usp=sharing)
+
+
+---
+
+## Objectives
+
+- Build a fully functioning multi-agent system  
+- Implement A2A task delegation  
+- Add custom tools for resume parsing & artifact generation  
+- Implement Tutor + Research + Resume + Coach agents  
+- Integrate long-term memory & session memory  
+- Add LRO — human confirmation for sensitive workflows  
+- Add observability (traces, logs, metrics)  
+- Deploy via Streamlit  
+
+---
+
+## Agents & Responsibilities
+
+### Root Orchestrator
+- Interprets mission  
+- Plans workflow  
+- Delegates steps to sub-agents (A2A)  
+
+### Resume Tailor Agent
+- Loads user resume through custom tools  
+- Compares against JD  
+- Outputs match score & ATS rewrites  
+
+### Tutor Agent
+- Explains ML/Stats/NLP  
+- Generates quizzes  
+- Executes code through Built-In Code Executor  
+
+### Research Agent
+- Fetches job trends & in-demand skill insights  
+- Uses MCP-based tools  
+
+### Coach Agent
+- Generates layoff pitch  
+- Creates professional interview intro and LinkedIn About  
+- Uses long-running operations  
+
+---
+
+## Key Agentic Features
+
+### Tools & Actionability
+- File I/O tools  
+- Artifact generation tool  
+- Code executor  
+- Research tools  
+
+### Memory (Session + Long-Term)
+- Stores user skills, preferences, layoff narrative  
+- Context compaction for long conversations  
+
+### Observability
+- Logs  
+- Traces  
+- Metrics  
+- Debugging through ADK UI  
+
+### Evaluation
+- Golden dataset  
+- Tool Trajectory Score  
+- Response-Match Score  
+
+---
+
+## Results & Impact
+
+- 98% tool trajectory correctness  
+- Accurate JD–resume matching  
+- High-quality, personalized coaching  
+- Multi-step tutoring sessions with memory awareness  
+- Production-aligned system design  
+
+---
+
+## Conclusion
+
+The MultiAgentic Data Science Agent demonstrates a complete enterprise-grade agent system with:
+
+- Orchestration  
+- Tools  
+- Memory  
+- Observability  
+- Evaluation  
+- A2A scaling architecture  
+
+It acts as a personalized, intelligent **job-search automation engine** and **Data Science career co-pilot**.
+
+---
+
+## Installation & Usage
+
+### Setup
+
+```bash
+git clone https://github.com/yourusername/MultiAgentic-DS-Agent.git
+cd MultiAgentic-DS-Agent
+
+conda create -n multiagent_env python=3.10
+conda activate multiagent_env
+
+pip install -r requirements.txt
+````
+
+### Run Streamlit App
+
+```bash
+streamlit run agentic_ai.py
+```
+
+---
+
+## Key Learnings
+
+* Multi-agent systems outperform single LLMs for complex workflows
+* Tools make agent output deterministic and grounded
+* Memory enables personalization and continuity
+* Observability is essential for debugging autonomous chains
+* Evaluation metrics ensure consistent, reliable behavior
+
+---
+
+## Project Structure
+
+```
+├── runner.py                     # Orchestrator + A2A logic
+├── tools/
+│   ├── file_tools.py
+│   ├── code_tools.py
+├── agents/
+│   ├── resume_agent.py
+│   ├── tutor_agent.py
+│   ├── research_agent.py
+│   ├── coach_agent.py
+├── memory/
+├── agentic_ai.py                 # Streamlit UI
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Connect With Me
+
+* [LinkedIn](https://www.linkedin.com/in/uttam-singh-chaudhary-98408214b)
+* [Portfolio](https://datascienceportfol.io/uttamsinghchaudhary)
+* [Email](mailto:uttamsinghchaudhary3@gmail.com)
+
+---
+
+## Acknowledgements
+
+* Google AI Agent Developer Kit (ADK)
+* 5-Day AI Agents Intensive Course
+* Streamlit
+* Python asyncio
+* Inspiration from Kaggle agentic workflows
+
+---
+
+```
+
+---
