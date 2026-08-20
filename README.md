@@ -26,8 +26,8 @@ A **Level-3 Multi-Agent AI System** that acts as an end-to-end Career Co-Pilot f
 
 ## 📋 Table of Contents
 
-- [The Problem](#the-problem)
-- [System Architecture](#system-architecture)
+- [The Problem](#-the-problem)
+- [System Architecture](#-system-architecture)
 - [Five Specialist Agents](#-five-specialist-agents)
 - [Three Core Agentic Patterns](#-three-core-agentic-patterns)
 - [5-Day Curriculum Mapping](#-5-day-curriculum-mapping)
@@ -42,7 +42,7 @@ A **Level-3 Multi-Agent AI System** that acts as an end-to-end Career Co-Pilot f
 
 ---
 
-##  The Problem
+## 🎯 The Problem
 
 Aspiring Data Scientists and laid-off professionals face three interconnected challenges that a single LLM cannot solve well:
 
@@ -56,7 +56,7 @@ These problems require **multi-agent specialization** — specialized reasoning,
 
 ---
 
-##  System Architecture
+## 🏗️ System Architecture
 
 **End-to-End Data Flow:**
 
