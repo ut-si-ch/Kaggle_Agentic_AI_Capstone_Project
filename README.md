@@ -61,7 +61,7 @@ These problems require **multi-agent specialization** — specialized reasoning,
 **End-to-End Data Flow:**
 
 <p align="center">
-  <img width="800" src="https://github.com/user-attachments/assets/efe98fc8-8aca-49ff-880f-d31784cf6435" alt="MultiAgentic DS Agent — System Architecture Flowchart"/>
+  <img width="40%" src="https://github.com/user-attachments/assets/efe98fc8-8aca-49ff-880f-d31784cf6435" alt="MultiAgentic DS Agent — System Architecture Flowchart"/>
 </p>
 
 ---
